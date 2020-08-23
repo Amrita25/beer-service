@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import springframework.beerservice.web.model.BeerDto;
+import springframework.beerservice.web.model.BeerStyleEnum;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -32,6 +33,9 @@ public class BeerControllerTest {
 	@Test
 	void saveNewBeer() throws Exception{
 		BeerDto beerDto = new BeerDto();
+		beerDto.setBeerName("my beer");
+		beerDto.setBeerStyle(BeerStyleEnum.LAGER);
+		beerDto.setUpc(100);
 		String beetDtoAsJson = mapper.writeValueAsString(beerDto);
 		mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/beer/")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -42,6 +46,9 @@ public class BeerControllerTest {
 	@Test
 	void updateBeerById() throws Exception{
 		BeerDto beerDto = new BeerDto();
+		beerDto.setBeerName("my updated beer");
+		beerDto.setBeerStyle(BeerStyleEnum.LAGER);
+		beerDto.setUpc(100);
 		String beetDtoAsJson = mapper.writeValueAsString(beerDto);
 		mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/beer/"+UUID.randomUUID())
 				.contentType(MediaType.APPLICATION_JSON)
