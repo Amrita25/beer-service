@@ -1,6 +1,7 @@
 package springframework.beerservice.web.controller;
 
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,9 @@ public class BeerControllerTest {
 		beerDto.setBeerName("my beer");
 		beerDto.setBeerStyle(BeerStyleEnum.LAGER);
 		beerDto.setUpc(100);
+		beerDto.setPrice(new BigDecimal(500));
 		String beetDtoAsJson = mapper.writeValueAsString(beerDto);
+		System.out.println("beetDtoAsJson "+beetDtoAsJson);
 		mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/beer/")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(beetDtoAsJson))
@@ -49,6 +52,7 @@ public class BeerControllerTest {
 		beerDto.setBeerName("my updated beer");
 		beerDto.setBeerStyle(BeerStyleEnum.LAGER);
 		beerDto.setUpc(100);
+		beerDto.setPrice(new BigDecimal(500));
 		String beetDtoAsJson = mapper.writeValueAsString(beerDto);
 		mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/beer/"+UUID.randomUUID())
 				.contentType(MediaType.APPLICATION_JSON)

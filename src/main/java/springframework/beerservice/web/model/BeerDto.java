@@ -9,14 +9,18 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Positive;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class BeerDto {
 	@Null
 	private UUID id ;
 	@Null
 	private Integer version;
 	@Null
+	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssZ",shape=JsonFormat.Shape.STRING)
 	private OffsetDateTime createdDateTime;
 	@Null
+	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ssZ",shape=JsonFormat.Shape.STRING)
 	private OffsetDateTime lastModifiedDate;
 	@NotBlank
 	private String beerName;
@@ -26,6 +30,10 @@ public class BeerDto {
 	@Positive
 	@NotNull
 	private long upc;
+	
+	@JsonFormat(shape=JsonFormat.Shape.STRING)
+	@Positive
+	@NotNull
 	private BigDecimal price;
 	private Integer quantityOnHand;
 	
