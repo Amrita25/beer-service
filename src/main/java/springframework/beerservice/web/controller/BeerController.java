@@ -4,6 +4,7 @@ package springframework.beerservice.web.controller;
 
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +18,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import springframework.beerservice.web.model.BeerDto;
+import springframework.beerservice.web.services.BeerService;
 
 @RequestMapping("api/v1/beer")
 @RestController
 public class BeerController {
+	
+	@Autowired
+	private BeerService beerService;
+	
 	@GetMapping({"/{brID}"})
 	public ResponseEntity<BeerDto> getBeerbyId(@PathVariable("brID") UUID beerID){
 		System.out.println("inside get beer by id ");
-		return new ResponseEntity<BeerDto>(new BeerDto.BeerDtoBuilder().build(),HttpStatus.OK);
+		BeerDto dto=beerService.getBeerById(beerID);
+		return new ResponseEntity<BeerDto>(dto,HttpStatus.OK);
 		
 	}
 	
@@ -34,7 +41,7 @@ public class BeerController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Location", brDto.getId().toString());*/
 		System.out.println("inside save new beer");
-		return new ResponseEntity(HttpStatus.CREATED);
+		return new ResponseEntity<BeerDto>(beerService.saveNewBeer(beerDto),HttpStatus.CREATED);
 		
 	}
 	
@@ -42,7 +49,7 @@ public class BeerController {
 	public ResponseEntity updateBeerById(@PathVariable("beerID") UUID beerID,@RequestBody @Validated BeerDto beerDto){
 		//BeerDto brDto =beerService.updateBeer(beerID,beerDto);
 		
-		return new ResponseEntity( HttpStatus.NO_CONTENT);
+		return new ResponseEntity(beerService.updateBeerById(beerID, beerDto), HttpStatus.NO_CONTENT);
 		
 	}
 }
